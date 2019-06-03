@@ -29,7 +29,7 @@ namespace BT.Contacts.Application.Implementation
             _addressRepo = addressRepo;
         }
 
-        public Address Add(Address address)
+        public virtual Address Add(Address address)
         {
             _logger.LogInformation($"Add Address");
             return _mapper.Map<Address>(_addressRepo.Add(_mapper.Map<Entity.Address>(address)));
@@ -39,11 +39,12 @@ namespace BT.Contacts.Application.Implementation
         /// Get all addresses
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Address> GetAll()
+        public virtual IEnumerable<Address> GetAll()
         {
             _logger.LogInformation("Get all Address");
 
-            return _mapper.Map<IEnumerable<Address>>(_addressRepo.FindAll());
+            var repo = _addressRepo.FindAll();
+            return _mapper.Map<IEnumerable<Address>>(repo);
         }
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace BT.Contacts.Application.Implementation
         /// </summary>
         /// <param name="addressId"></param>
         /// <returns></returns>
-        public Address GetByAddressId(int addressId)
+        public virtual Address GetByAddressId(int addressId)
         {
             addressId.CheckLessThanOrEqual(0, nameof(addressId));
             _logger.LogInformation($"Get Address info of addressId: '{addressId}'");
@@ -64,7 +65,7 @@ namespace BT.Contacts.Application.Implementation
         /// </summary>
         /// <param name="contactId"></param>
         /// <returns></returns>
-        public IEnumerable<Address> GetByContactId(int contactId)
+        public virtual IEnumerable<Address> GetByContactId(int contactId)
         {
             contactId.CheckLessThanOrEqual(0, nameof(contactId));
             _logger.LogInformation($"Get Address info of contactId: '{contactId}'");
@@ -77,7 +78,7 @@ namespace BT.Contacts.Application.Implementation
         /// </summary>
         /// <param name="zipCode"></param>
         /// <returns></returns>
-        public IEnumerable<Address> GetByZipCode(string zipCode)
+        public virtual IEnumerable<Address> GetByZipCode(string zipCode)
         {
             zipCode.CheckNullOrEmpty(nameof(zipCode));
             _logger.LogInformation($"Get Address info of zipCode: '{zipCode}'");
@@ -85,9 +86,11 @@ namespace BT.Contacts.Application.Implementation
             return _mapper.Map<IEnumerable<Address>>(_addressRepo.FindByZipCode(zipCode));
         }
 
-        public bool Remove(int addressId)
+        public virtual bool Remove(int addressId)
         {
             addressId.CheckLessThanOrEqual(0, nameof(addressId));
+            _logger.LogInformation($"Remove address id: {addressId}");
+
             return _addressRepo.Delete(addressId);
         }
     }

@@ -27,22 +27,22 @@ namespace BT.Contacts.Application.Implementation
             _contactRepo = contactRepo;
         }
 
-        public Contact Add(Contact contact)
+        public virtual Contact Add(Contact contact)
         {
             _logger.LogInformation($"Add Contact");
             contact.Validate();
             return _mapper.Map<Contact>(_contactRepo.Add(_mapper.Map<Entity.Contact>(contact)));
         }
 
-        public Contact Get(int contactId)
+        public virtual Contact Get(int contactId)
         {
             contactId.CheckLessThanOrEqual(0, nameof(contactId));
             _logger.LogInformation($"Get contact information for id: '{contactId}'");
 
-            return _mapper.Map<Contact>(_contactRepo.Get(contactId));
+            return _mapper.Map<Contact>((object)_contactRepo.Get(contactId));
         }
 
-        public IEnumerable<Contact> GetAll()
+        public virtual IEnumerable<Contact> GetAll()
         {
             _logger.LogInformation("Get all contact information");
 
@@ -54,8 +54,24 @@ namespace BT.Contacts.Application.Implementation
             return null;
         }
 
-        public bool Remove(int contactId) {
+        public IEnumerable<Contact> GetAll(string zipcode)
+        {
+            zipcode.CheckNullOrEmpty(nameof(zipcode));
+            _logger.LogInformation("Get all contact information");
+
+            var contactFromRepo = _contactRepo.GetAll(zipcode);
+
+            if (contactFromRepo.Any())
+                return _mapper.Map<IEnumerable<Contact>>(contactFromRepo);
+
+            return null;
+        }
+
+        public virtual bool Remove(int contactId)
+        {
             contactId.CheckLessThanOrEqual(0, nameof(contactId));
+            _logger.LogInformation($"Remove Contact id: {contactId}");
+
             return _contactRepo.Delete(contactId);
         }
     }

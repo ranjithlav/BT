@@ -11,6 +11,8 @@ namespace BT.Contacts.Application.Api
 
         IEnumerable<Contact> GetAll();
 
+        IEnumerable<Contact> GetAll(string zipcode);
+
         bool Remove(int contactId);
     }
 }

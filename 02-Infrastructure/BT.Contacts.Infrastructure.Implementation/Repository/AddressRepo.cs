@@ -16,7 +16,7 @@ namespace BT.Contacts.Infrastructure.Implementation.Repository
         private readonly ILogger<AddressRepo> _logger;
         private readonly IOptions<DB> _dbOptions;
 
-        private readonly AddressDbContext context;
+        private readonly AddressDbContext _context;
 
         public AddressRepo(ILogger<AddressRepo> logger, IOptions<DB> dbOptions)
         {
@@ -26,44 +26,45 @@ namespace BT.Contacts.Infrastructure.Implementation.Repository
             _logger = logger;
             _dbOptions = dbOptions;
 
-            context = new AddressDbContext(_dbOptions);
+            _context = new AddressDbContext(_dbOptions);
         }
 
-        public Address Add(Address address)
+        public virtual Address Add(Address address)
         {
-            context.Add(address);
-            context.SaveChanges();
+            address.CreatedDate = DateTime.UtcNow;
+            _context.Add(address);
+            _context.SaveChanges();
 
             return address;
         }
 
-        public IEnumerable<Address> FindAll()
+        public virtual IEnumerable<Address> FindAll()
         {
-            return context.Address;
+            return _context.Addresses;
         }
 
-        public Address FindByAddressId(int addressId)
+        public virtual Address FindByAddressId(int addressId)
         {
             addressId.CheckLessThanOrEqual(0, nameof(addressId));
-            return context.Address.Where(i => i.AddressId == addressId).FirstOrDefault();
+            return _context.Addresses.Where(i => i.AddressId == addressId).FirstOrDefault();
         }
 
-        public IEnumerable<Address> FindByContactId(int contactId)
+        public virtual IEnumerable<Address> FindByContactId(int contactId)
         {
             contactId.CheckLessThanOrEqual(0, nameof(contactId));
-            return context.Address.Where(i => i.ContactId == contactId);
+            return _context.Addresses.Where(i => i.ContactId == contactId);
         }
 
-        public IEnumerable<Address> FindByZipCode(string zipCode)
+        public virtual IEnumerable<Address> FindByZipCode(string zipCode)
         {
             zipCode.CheckNullOrEmpty(zipCode);
-            return context.Address.Where(i => i.ZipCode.Equals(zipCode));
+            return _context.Addresses.Where(i => i.ZipCode.Equals(zipCode));
         }
 
-        public bool Delete(int addressId)
+        public virtual bool Delete(int addressId)
         {
             addressId.CheckLessThanOrEqual(0, nameof(addressId));
-            context.Address.Remove(new Address { AddressId = addressId });
+            _context.Addresses.Remove(new Address { AddressId = addressId });
             return true;
         }
     }

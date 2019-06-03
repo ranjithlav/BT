@@ -24,8 +24,21 @@ namespace BT.NetCoreClient.Controllers
         [HttpPost, Route("address")]
         public IActionResult Add([FromBody]Address address)
         {
+            address.CheckNull();
             _logger.LogInformation("Add Address");
+            
             var result = _addresses.Add(address);
+
+            return Ok(result);
+        }
+
+        [HttpDelete, Route("address")]
+        public IActionResult Delete(int addressId)
+        {
+            addressId.CheckLessThanOrEqual(0, nameof(addressId));
+
+            _logger.LogInformation($"Delete contact info of contactId: '{addressId}'");
+            var result = _addresses.Remove(addressId);
 
             return Ok(result);
         }

@@ -1,12 +1,14 @@
 ﻿using BT.Contacts.Common;
 using BT.Contacts.Domain;
-using BT.Contacts.Domain.Entities;
+using EntityModel = BT.Contacts.Domain.Entities;
 using BT.Contacts.Infrastructure.Api.Repository;
 using BT.Contacts.Infrastructure.Implementation.Context;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace BT.Contacts.Infrastructure.Implementation.Repository
 {
@@ -15,7 +17,7 @@ namespace BT.Contacts.Infrastructure.Implementation.Repository
         private readonly ILogger<ContactRepo> _logger;
         private readonly IOptions<DB> _dbOptions;
 
-        private readonly ContactsDbContext context;
+        private readonly ContactsDbContext _context;
 
         public ContactRepo(ILogger<ContactRepo> logger, IOptions<DB> dbOptions)
         {
@@ -25,33 +27,55 @@ namespace BT.Contacts.Infrastructure.Implementation.Repository
             _logger = logger;
             _dbOptions = dbOptions;
 
-            context = new ContactsDbContext(_dbOptions);
+            _context = new ContactsDbContext(_dbOptions);
         }
 
-        public Contact Add(Contact contact)
+        public EntityModel.Contact Add(EntityModel.Contact contact)
         {
-            context.Add(contact);
-            context.SaveChanges();
+            contact.CreatedDate = DateTime.UtcNow;
+            _context.Add(contact);
+            _context.SaveChanges();
 
             return contact;
         }
 
-        public Contact Get(int contactId)
+        public EntityModel.Contact Get(int contactId)
         {
             contactId.CheckLessThanOrEqual(0, nameof(contactId));
-            return context.Contact.Where(i => i.ContactId == contactId).FirstOrDefault();
+            return _context.Contacts
+                .Where(contact => contact.ContactId == contactId)
+                .Include(contactAddress => contactAddress.Addresses)
+                .FirstOrDefault();
         }
 
-        public IEnumerable<Contact> GetAll()
+        public IEnumerable<EntityModel.Contact> GetAll()
         {
-            return context.Contact;
+            return _context.Contacts
+                .Include(contactAddress => contactAddress.Addresses);
+        }
+
+        public IEnumerable<EntityModel.Contact> GetAll(string zipcode)
+        {
+            return (_context.Contacts
+                .Include(contactAddress => contactAddress.Addresses))
+                .Select(m => new EntityModel.Contact
+                {
+                    Addresses = m.Addresses.Where(z => z.ZipCode.Equals(zipcode)).ToList(),
+                    BusinessName = m.BusinessName,
+                    ContactId = m.ContactId,
+                    CreatedDate = m.CreatedDate,
+                    FirstName = m.FirstName,
+                    LastName = m.LastName,
+                    Type = m.Type,
+                    UpdatedDate = m.UpdatedDate
+                }).ToList();
         }
 
         public bool Delete(int contactId)
         {
             contactId.CheckLessThanOrEqual(0, nameof(contactId));
             //var contact = context.Contact.Find(contactId);
-            context.Contact.Remove(new Contact { ContactId = contactId });
+            _context.Contacts.Remove(new EntityModel.Contact { ContactId = contactId });
             return true;
         }
     }

@@ -13,11 +13,14 @@ namespace BT.Contacts.Infrastructure.Implementation.Context
             dbOptions.CheckNull();
         }
 
-        public virtual DbSet<Address> Address { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Address>().ToTable(BT_Tables.Addresses);
+            modelBuilder.Entity<Address>()
+                .HasOne(c => c.Contact)
+                .WithMany(a => a.Addresses)
+                .HasForeignKey(fk => fk.ContactId);
         }
     }
 }

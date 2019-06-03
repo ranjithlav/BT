@@ -73,9 +73,7 @@ namespace BT.Contacts.Application.Tests
                     Street = "2727",
                     City = "Houston",
                     State = "Texas",
-                    ZipCode = zipcode1,
-                    CreatedDate = DateTime.Now.AddDays(-5),
-                    UpdatedDate = DateTime.Now.AddDays(-4)
+                    ZipCode = zipcode1
                 });
 
             _mapperMocked.Setup(x => x.Map<IEnumerable<ApplModels.Address>>(It.IsAny<IEnumerable<DomainModels.Address>>()))
@@ -86,9 +84,7 @@ namespace BT.Contacts.Application.Tests
                     Street = "2727",
                     City = "Houston",
                     State = "Texas",
-                    ZipCode = zipcode1,
-                    CreatedDate = DateTime.Now.AddDays(-5),
-                    UpdatedDate = DateTime.Now.AddDays(-4)
+                    ZipCode = zipcode1
                 },
                     new ApplModels.Address {
                     AddressId = addressId2,
@@ -96,9 +92,7 @@ namespace BT.Contacts.Application.Tests
                     Street = "2727",
                     City = "Austin",
                     State = "Texas",
-                    ZipCode = zipcode2,
-                    CreatedDate = DateTime.Now.AddMonths(-5),
-                    UpdatedDate = DateTime.Now
+                    ZipCode = zipcode2
                 } ,
                     new ApplModels.Address {
                     AddressId = addressId3,
@@ -106,9 +100,7 @@ namespace BT.Contacts.Application.Tests
                     Street = "1111",
                     City = "Dallas",
                     State = "Texas",
-                    ZipCode = zipcode1,
-                    CreatedDate = DateTime.Now.AddMonths(-10),
-                    UpdatedDate = DateTime.Now
+                    ZipCode = zipcode1
                 } });
 
             _addresses = new List<DomainModels.Address> { _address1, _address2 };

@@ -24,8 +24,21 @@ namespace BT.NetCoreClient.Controllers
         [HttpPost, Route("contact")]
         public IActionResult Add([FromBody]Contact contact)
         {
+            contact.CheckNull();
             _logger.LogInformation("Add contact info");
+            
             var result = _contacts.Add(contact);
+
+            return Ok(result);
+        }
+
+        [HttpDelete, Route("contact")]
+        public IActionResult Delete(int contactId)
+        {
+            contactId.CheckLessThanOrEqual(0, nameof(contactId));
+            _logger.LogInformation($"Delete contact info of contactId: '{contactId}'");
+
+            var result = _contacts.Remove(contactId);
 
             return Ok(result);
         }
@@ -39,9 +52,20 @@ namespace BT.NetCoreClient.Controllers
             return Ok(result);
         }
 
+        [HttpGet, Route("contacts/{zipcode}")]
+        public IActionResult GetAllContactInfo(string zipcode)
+        {
+            zipcode.CheckNullOrEmpty(nameof(zipcode));
+            _logger.LogInformation($"Get all contact info for zipcode: {zipcode}");
+            var result = _contacts.GetAll(zipcode);
+
+            return Ok(result);
+        }
+
         [HttpGet, Route("contact/{contactId}")]
         public IActionResult GetContactInfo(int contactId)
         {
+            contactId.CheckLessThanOrEqual(0, nameof(contactId));
             _logger.LogInformation($"Get contact info for id: '{contactId}'");
 
             var result = _contacts.Get(contactId);
