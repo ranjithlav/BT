@@ -36,7 +36,7 @@ namespace BT.Contacts.Application.Models
         /// <summary>
         /// List of Addresses mapped with the contact
         /// </summary>
-        public List<Address> Addresses { get; set; }
+        //public List<Address> Addresses { get; set; }
 
         /// <summary>
         /// Contact Created date

@@ -9,11 +9,32 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.1.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.2.11" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\00-Common\BT.Contacts.Common\BT.Contacts.Common.csproj" />
+    <ProjectReference Include="..\..\02-Infrastructure\BT.Contacts.Infrastructure.Api\BT.Contacts.Infrastructure.Api.csproj" />
+    <ProjectReference Include="..\..\02-Infrastructure\BT.Contacts.Infrastructure.Implementation\BT.Contacts.Infrastructure.Implementation.csproj" />
+    <ProjectReference Include="..\..\03-Application\BT.Contacts.Application.Api\BT.Contacts.Application.Api.csproj" />
+    <ProjectReference Include="..\..\03-Application\BT.Contacts.Application.Implementation\BT.Contacts.Application.Implementation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

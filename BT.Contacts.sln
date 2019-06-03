@@ -13,25 +13,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-Domain", "01-Domain", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "100-Others", "100-Others", "{00B1F26F-AC4D-4B22-868E-35275F609EF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BT.Contacts.Application.Implementation", "03-Application\BT.Contacts.Application.Implementation\BT.Contacts.Application.Implementation.csproj", "{0D2DC0AB-B10D-4C14-A960-AD7C8FBA72A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BT.Contacts.Application.Implementation", "03-Application\BT.Contacts.Application.Implementation\BT.Contacts.Application.Implementation.csproj", "{0D2DC0AB-B10D-4C14-A960-AD7C8FBA72A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BT.Contacts.Application.Api", "03-Application\BT.Contacts.Application.Api\BT.Contacts.Application.Api.csproj", "{3F627137-4665-42A0-A200-6CABBF5B259F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BT.Contacts.Application.Api", "03-Application\BT.Contacts.Application.Api\BT.Contacts.Application.Api.csproj", "{3F627137-4665-42A0-A200-6CABBF5B259F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BT.Contacts.Infrastructure.Api", "02-Infrastructure\BT.Contacts.Infrastructure.Api\BT.Contacts.Infrastructure.Api.csproj", "{445B4150-0570-41D1-84C5-FEE732E39F9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BT.Contacts.Infrastructure.Api", "02-Infrastructure\BT.Contacts.Infrastructure.Api\BT.Contacts.Infrastructure.Api.csproj", "{445B4150-0570-41D1-84C5-FEE732E39F9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BT.Contacts.Infrastructure.Implementation", "02-Infrastructure\BT.Contacts.Infrastructure.Implementation\BT.Contacts.Infrastructure.Implementation.csproj", "{8D90E09F-5322-43B1-BBEF-6BFE5D07F8A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BT.Contacts.Infrastructure.Implementation", "02-Infrastructure\BT.Contacts.Infrastructure.Implementation\BT.Contacts.Infrastructure.Implementation.csproj", "{8D90E09F-5322-43B1-BBEF-6BFE5D07F8A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BT.Contacts.Infrastructure.Tests", "02-Infrastructure\BT.Contacts.Infrastructure.Tests\BT.Contacts.Infrastructure.Tests.csproj", "{1FA7BC71-E60D-4994-9851-0A2C1A24F571}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BT.Contacts.Infrastructure.Tests", "02-Infrastructure\BT.Contacts.Infrastructure.Tests\BT.Contacts.Infrastructure.Tests.csproj", "{1FA7BC71-E60D-4994-9851-0A2C1A24F571}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BT.Contacts.Application.Tests", "03-Application\BT.Contacts.Application.Tests\BT.Contacts.Application.Tests.csproj", "{AE122660-FACE-4BD6-9C9F-6C26735319A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BT.Contacts.Application.Tests", "03-Application\BT.Contacts.Application.Tests\BT.Contacts.Application.Tests.csproj", "{AE122660-FACE-4BD6-9C9F-6C26735319A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BT.Contacts.Domain", "01-Domain\BT.Contacts.Domain\BT.Contacts.Domain.csproj", "{EE6158D1-C091-4CAB-BA27-BC6F25B986E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BT.Contacts.Domain", "01-Domain\BT.Contacts.Domain\BT.Contacts.Domain.csproj", "{EE6158D1-C091-4CAB-BA27-BC6F25B986E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BT.Contacts.Application.Models", "03-Application\BT.Contacts.Application.Models\BT.Contacts.Application.Models.csproj", "{2B77955F-C9BE-4C6F-82BC-14402C352787}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BT.Contacts.Application.Models", "03-Application\BT.Contacts.Application.Models\BT.Contacts.Application.Models.csproj", "{2B77955F-C9BE-4C6F-82BC-14402C352787}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BT.NetCoreClient", "09-Clients\BT.NetCoreClient\BT.NetCoreClient.csproj", "{FFFF16DB-9A17-4232-B535-EB288185A444}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BT.NetCoreClient", "09-Clients\BT.NetCoreClient\BT.NetCoreClient.csproj", "{FFFF16DB-9A17-4232-B535-EB288185A444}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BT.NetFrameworkClient", "09-Clients\BT.NetFrameworkClient\BT.NetFrameworkClient.csproj", "{5270BE35-C795-4C4D-BE7B-1035FBBF2218}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00-Common", "00-Common", "{4952EF6A-3E46-481F-B0A6-9DF316478F13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BT.Contacts.Common", "00-Common\BT.Contacts.Common\BT.Contacts.Common.csproj", "{64A384B6-BBF0-4D8C-86D7-A85BEBD88B44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,10 +77,10 @@ Global
 		{FFFF16DB-9A17-4232-B535-EB288185A444}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFFF16DB-9A17-4232-B535-EB288185A444}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFFF16DB-9A17-4232-B535-EB288185A444}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5270BE35-C795-4C4D-BE7B-1035FBBF2218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5270BE35-C795-4C4D-BE7B-1035FBBF2218}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5270BE35-C795-4C4D-BE7B-1035FBBF2218}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5270BE35-C795-4C4D-BE7B-1035FBBF2218}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A384B6-BBF0-4D8C-86D7-A85BEBD88B44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A384B6-BBF0-4D8C-86D7-A85BEBD88B44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A384B6-BBF0-4D8C-86D7-A85BEBD88B44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A384B6-BBF0-4D8C-86D7-A85BEBD88B44}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,7 +95,7 @@ Global
 		{EE6158D1-C091-4CAB-BA27-BC6F25B986E7} = {88C3CE1C-61C3-4F26-B2CE-167F7C05A013}
 		{2B77955F-C9BE-4C6F-82BC-14402C352787} = {1DBF3725-2B45-419F-BABF-3E69ADA5CAFE}
 		{FFFF16DB-9A17-4232-B535-EB288185A444} = {03149A8A-59F1-461C-BF37-6836314677C5}
-		{5270BE35-C795-4C4D-BE7B-1035FBBF2218} = {03149A8A-59F1-461C-BF37-6836314677C5}
+		{64A384B6-BBF0-4D8C-86D7-A85BEBD88B44} = {4952EF6A-3E46-481F-B0A6-9DF316478F13}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0B9CF556-D07A-4807-8D0A-03BCD5A4D163}

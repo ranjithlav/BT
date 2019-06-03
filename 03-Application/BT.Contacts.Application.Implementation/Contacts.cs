@@ -1,0 +1,49 @@
+﻿using AutoMapper;
+using BT.Contacts.Application.Api;
+using BT.Contacts.Application.Models;
+using BT.Contacts.Common;
+using BT.Contacts.Infrastructure.Api.Repository;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace BT.Contacts.Application.Implementation
+{
+    public class Contacts : IContacts
+    {
+        private readonly ILogger<Contacts> _logger;
+        private readonly IContactRepo _contactRepo;
+        private readonly IMapper _mapper;
+
+        public Contacts(ILogger<Contacts> logger, IMapper mapper, IContactRepo contactRepo)
+        {
+            logger.CheckNull();
+            mapper.CheckNull();
+            contactRepo.CheckNull();
+
+            _logger = logger;
+            _mapper = mapper;
+            _contactRepo = contactRepo;
+        }
+
+        public Contact Get(int contactId)
+        {
+            _logger.LogInformation($"Get contact information for id: '{contactId}'");
+            var contact = _mapper.Map<Contact>(_contactRepo.Get(contactId));
+
+            return contact;
+        }
+
+        public IEnumerable<Contact> GetAll()
+        {
+            _logger.LogInformation("Get all contact information");
+
+            var contactFromRepo = _contactRepo.GetAll();
+
+            if(contactFromRepo.Any())
+                return _mapper.Map<IEnumerable<Contact>>(contactFromRepo);
+            
+            return null;
+        }
+    }
+}
