@@ -28,10 +28,10 @@ namespace BT.Contacts.Application.Implementation
 
         public Contact Get(int contactId)
         {
+            contactId.CheckLessThanOrEqual(0, nameof(contactId));
             _logger.LogInformation($"Get contact information for id: '{contactId}'");
-            var contact = _mapper.Map<Contact>(_contactRepo.Get(contactId));
 
-            return contact;
+            return _mapper.Map<Contact>(_contactRepo.Get(contactId));
         }
 
         public IEnumerable<Contact> GetAll()

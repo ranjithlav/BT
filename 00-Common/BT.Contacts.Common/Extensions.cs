@@ -25,5 +25,23 @@ namespace BT.Contacts.Common
             }
             return true;
         }
+
+        public static bool CheckLessThan(this int obj, int givenInt, string paramName)
+        {
+            if (obj < givenInt)
+            {
+                throw new ArgumentOutOfRangeException($"{paramName} is lessthan '{givenInt}'");
+            }
+            return true;
+        }
+
+        public static bool CheckLessThanOrEqual(this int obj, int givenInt, string paramName)
+        {
+            if (obj <= givenInt)
+            {
+                throw new ArgumentOutOfRangeException($"{paramName} is lessthan or equal '{givenInt}'");
+            }
+            return true;
+        }
     }
 }
