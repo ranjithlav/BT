@@ -48,11 +48,10 @@ namespace BT.Contacts.Application.Tests
         private void ExecuteConstructor()
         {
             //Act
-            var obj = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
+            var contacts = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
 
             //Assert
-            obj.Should().NotBeNull();
-
+            contacts.Should().NotBeNull();
         }
     }
 }

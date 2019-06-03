@@ -19,9 +19,14 @@ namespace BT.Contacts.Application.Tests
         private readonly Mock<IContactRepo> _contactRepoMocked;
         private readonly Mock<IMapper> _mapperMocked;
 
-        private DomainModels.Contact contact1;
-        private DomainModels.Contact contact2;
-        private List<DomainModels.Contact> contacts;
+        private readonly ApplModels.Contact _appContact1;
+        private readonly DomainModels.Contact _contact1;
+        private readonly DomainModels.Contact _contact2;
+        private readonly List<DomainModels.Contact> _contacts;
+
+        private const string FirstName = "John";
+        private const string LastName = "Doe";
+        private const string BusinessName = "Bank of America";
 
         public ContactsShould()
         {
@@ -30,7 +35,14 @@ namespace BT.Contacts.Application.Tests
             _contactRepoMocked = new Mock<IContactRepo>();
             _mapperMocked = new Mock<IMapper>();
 
-            contact1 = new DomainModels.Contact
+            _appContact1 = new ApplModels.Contact
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                BusinessName = "NA"
+            };
+
+            _contact1 = new DomainModels.Contact
             {
                 ContactId = 1,
                 FirstName = "John",
@@ -40,7 +52,7 @@ namespace BT.Contacts.Application.Tests
                 UpdatedDate = DateTime.Now.AddDays(-4)
             };
 
-            contact2 = new DomainModels.Contact
+            _contact2 = new DomainModels.Contact
             {
                 ContactId = 2,
                 FirstName = "BoA",
@@ -54,11 +66,9 @@ namespace BT.Contacts.Application.Tests
                 .Returns((DomainModels.Contact source) => new ApplModels.Contact()
                 {
                     ContactId = 1,
-                    FirstName = "John",
-                    LastName = "Doe",
-                    BusinessName = "NA",
-                    CreatedDate = DateTime.Now.AddDays(-5),
-                    UpdatedDate = DateTime.Now.AddDays(-4)
+                    FirstName = FirstName,
+                    LastName = LastName,
+                    BusinessName = BusinessName
                 });
 
             _mapperMocked.Setup(x => x.Map<IEnumerable<ApplModels.Contact>>(It.IsAny<IEnumerable<DomainModels.Contact>>()))
@@ -67,20 +77,96 @@ namespace BT.Contacts.Application.Tests
                     ContactId = 1,
                     FirstName = "John",
                     LastName = "Doe",
-                    BusinessName = "NA",
-                    CreatedDate = DateTime.Now.AddDays(-5),
-                    UpdatedDate = DateTime.Now.AddDays(-4)
+                    BusinessName = "NA"
                 },
                     new ApplModels.Contact {
                     ContactId = 2,
                     FirstName = "BoA",
                     LastName = "BoA",
-                    BusinessName = "Bank Of America",
-                    CreatedDate = DateTime.Now.AddMonths(-5),
-                    UpdatedDate = DateTime.Now
+                    BusinessName = "Bank Of America"
                 } });
 
-            contacts = new List<DomainModels.Contact> { contact1, contact2 };
+            _contacts = new List<DomainModels.Contact> { _contact1, _contact2 };
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenFirstLastAndBusinessNamesEmptyWhileAdd()
+        {
+            //Act
+            var obj = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => obj.Add(new ApplModels.Contact
+            {
+                FirstName = string.Empty,
+                LastName = string.Empty,
+                BusinessName = string.Empty
+            }));
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenFirstEmptyWhileAdd()
+        {
+            //Act
+            var obj = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => obj.Add(new ApplModels.Contact
+            {
+                FirstName = string.Empty,
+                LastName = "LastName",
+                BusinessName = string.Empty
+            }));
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenLastEmptyWhileAdd()
+        {
+            //Act
+            var obj = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => obj.Add(new ApplModels.Contact
+            {
+                FirstName = "FirstName",
+                LastName = string.Empty,
+                BusinessName = string.Empty
+            }));
+        }
+
+        [Fact]
+        private void AddContactWithFirstAndLastNames()
+        {
+            //Act
+            var contacts = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
+
+            var result = contacts.Add(new ApplModels.Contact
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                BusinessName = string.Empty
+            });
+
+            //Assert
+            result.FirstName.Should().Be(FirstName);
+            result.LastName.Should().Be(LastName);
+        }
+
+        [Fact]
+        private void AddContactWithBusinessName()
+        {
+            //Act
+            var contacts = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
+
+            var result = contacts.Add(new ApplModels.Contact
+            {
+                FirstName = string.Empty,
+                LastName = string.Empty,
+                BusinessName = BusinessName
+            });
+
+            //Assert
+            result.BusinessName.Should().Be(BusinessName);
         }
 
         [Fact]
@@ -108,7 +194,7 @@ namespace BT.Contacts.Application.Tests
         {
             //Act
             var contact = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
-            _contactRepoMocked.Setup(repo => repo.Get(It.IsAny<int>())).Returns(contact1);
+            _contactRepoMocked.Setup(repo => repo.Get(It.IsAny<int>())).Returns(_contact1);
 
             var contactResult = contact.Get(1);
 
@@ -135,7 +221,7 @@ namespace BT.Contacts.Application.Tests
         {
             //Act
             var contact = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
-            _contactRepoMocked.Setup(repo => repo.GetAll()).Returns(contacts);
+            _contactRepoMocked.Setup(repo => repo.GetAll()).Returns(_contacts);
 
             var contactsResult = contact.GetAll().ToList();
 

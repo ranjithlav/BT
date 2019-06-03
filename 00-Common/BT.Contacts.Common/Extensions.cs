@@ -21,7 +21,7 @@ namespace BT.Contacts.Common
             }
             if (string.IsNullOrWhiteSpace(obj))
             {
-                throw new ArgumentNullException($"{paramName} is NullOrWhiteSpace");
+                throw new ArgumentException($"{paramName} is NullOrWhiteSpace");
             }
             return true;
         }

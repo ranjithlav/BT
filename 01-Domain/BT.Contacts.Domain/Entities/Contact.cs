@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace BT.Contacts.Domain.Entities
+﻿namespace BT.Contacts.Domain.Entities
 {
-    public class Contact
+    public class Contact : EntityBase
     {
         public int ContactId { get; set; }
 
@@ -13,9 +11,5 @@ namespace BT.Contacts.Domain.Entities
         public string BusinessName { get; set; }
 
         public string Type { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public DateTime UpdatedDate { get; set; }
     }
 }

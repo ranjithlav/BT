@@ -28,14 +28,31 @@ namespace BT.Contacts.Infrastructure.Implementation.Repository
             context = new ContactsDbContext(_dbOptions);
         }
 
+        public Contact Add(Contact contact)
+        {
+            context.Add(contact);
+            context.SaveChanges();
+
+            return contact;
+        }
+
         public Contact Get(int contactId)
         {
+            contactId.CheckLessThanOrEqual(0, nameof(contactId));
             return context.Contact.Where(i => i.ContactId == contactId).FirstOrDefault();
         }
 
         public IEnumerable<Contact> GetAll()
         {
             return context.Contact;
+        }
+
+        public bool Delete(int contactId)
+        {
+            contactId.CheckLessThanOrEqual(0, nameof(contactId));
+            //var contact = context.Contact.Find(contactId);
+            context.Contact.Remove(new Contact { ContactId = contactId });
+            return true;
         }
     }
 }

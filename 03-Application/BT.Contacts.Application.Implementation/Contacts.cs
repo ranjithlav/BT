@@ -6,6 +6,7 @@ using BT.Contacts.Infrastructure.Api.Repository;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
+using Entity = BT.Contacts.Domain.Entities;
 
 namespace BT.Contacts.Application.Implementation
 {
@@ -26,6 +27,13 @@ namespace BT.Contacts.Application.Implementation
             _contactRepo = contactRepo;
         }
 
+        public Contact Add(Contact contact)
+        {
+            _logger.LogInformation($"Add Contact");
+            contact.Validate();
+            return _mapper.Map<Contact>(_contactRepo.Add(_mapper.Map<Entity.Contact>(contact)));
+        }
+
         public Contact Get(int contactId)
         {
             contactId.CheckLessThanOrEqual(0, nameof(contactId));
@@ -44,6 +52,11 @@ namespace BT.Contacts.Application.Implementation
                 return _mapper.Map<IEnumerable<Contact>>(contactFromRepo);
             
             return null;
+        }
+
+        public bool Remove(int contactId) {
+            contactId.CheckLessThanOrEqual(0, nameof(contactId));
+            return _contactRepo.Delete(contactId);
         }
     }
 }

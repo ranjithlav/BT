@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace BT.Contacts.Domain.Entities
+﻿namespace BT.Contacts.Domain.Entities
 {
-    public class Address
+    public class Address : EntityBase
     {
         public int AddressId { get; set; }
 
@@ -15,9 +13,5 @@ namespace BT.Contacts.Domain.Entities
         public string State { get; set; }
 
         public string ZipCode { get; set; }
-
-        public DateTime CreatedDate { get; set; }
-
-        public DateTime UpdatedDate { get; set; }
     }
 }

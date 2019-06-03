@@ -27,7 +27,8 @@ namespace BT.NetCoreClient
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<DB>(Configuration.GetSection("DBConfiguration"));
-            IocRegistration(services);
+            ServiceIocRegistration(services);
+            RepositoryIocRegistration(services);
 
             services.AddAutoMapper(typeof(Startup));
             services.AddMvc();
@@ -64,10 +65,16 @@ namespace BT.NetCoreClient
             });
         }
 
-        private void IocRegistration(IServiceCollection services)
+        private void ServiceIocRegistration(IServiceCollection services)
         {
             services.AddTransient<IContacts, Appl.Contacts>();
+            services.AddTransient<IAddresses, Appl.Addresses>();
+        }
+
+        private void RepositoryIocRegistration(IServiceCollection services)
+        {
             services.AddTransient<IContactRepo, ContactRepo>();
+            services.AddTransient<IAddressRepo, AddressRepo>();
         }
     }
 }

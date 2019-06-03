@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\00-Common\BT.Contacts.Common\BT.Contacts.Common.csproj" />
+  </ItemGroup>
+
 </Project>
