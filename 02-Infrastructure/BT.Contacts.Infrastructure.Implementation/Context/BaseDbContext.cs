@@ -1,6 +1,7 @@
 ﻿using BT.Contacts.Common;
 using BT.Contacts.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace BT.Contacts.Infrastructure.Implementation.Context
@@ -27,6 +28,11 @@ namespace BT.Contacts.Infrastructure.Implementation.Context
             {
                 optionsBuilder.UseSqlServer(_connectionString);
             }
+#if DEBUG
+            var loggerFactory = new LoggerFactory();
+            loggerFactory.AddProvider(new SqlLoggerProvider());
+            optionsBuilder.UseLoggerFactory(loggerFactory);
+#endif
         }
     }
 }

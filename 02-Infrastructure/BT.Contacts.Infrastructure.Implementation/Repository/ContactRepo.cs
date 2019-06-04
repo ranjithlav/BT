@@ -1,14 +1,15 @@
 ﻿using BT.Contacts.Common;
 using BT.Contacts.Domain;
-using EntityModel = BT.Contacts.Domain.Entities;
 using BT.Contacts.Infrastructure.Api.Repository;
 using BT.Contacts.Infrastructure.Implementation.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
+using EntityModel = BT.Contacts.Domain.Entities;
 
 namespace BT.Contacts.Infrastructure.Implementation.Repository
 {
@@ -56,19 +57,43 @@ namespace BT.Contacts.Infrastructure.Implementation.Repository
 
         public IEnumerable<EntityModel.Contact> GetAll(string zipcode)
         {
-            return (_context.Contacts
-                .Include(contactAddress => contactAddress.Addresses))
-                .Select(m => new EntityModel.Contact
-                {
-                    Addresses = m.Addresses.Where(z => z.ZipCode.Equals(zipcode)).ToList(),
-                    BusinessName = m.BusinessName,
-                    ContactId = m.ContactId,
-                    CreatedDate = m.CreatedDate,
-                    FirstName = m.FirstName,
-                    LastName = m.LastName,
-                    Type = m.Type,
-                    UpdatedDate = m.UpdatedDate
-                }).ToList();
+            var result =
+                (from
+                    cont in _context.Contacts
+                 join addr in _context.Addresses
+                 on cont.ContactId equals addr.ContactId
+                 where addr.ZipCode == zipcode
+                 select new
+                 {
+                     Id = cont.ContactId,
+                     FN = cont.FirstName,
+                     LN = cont.LastName,
+                     BN = cont.BusinessName,
+                     Typ = cont.Type,
+                     Addrs = cont.Addresses.Where(z => z.ZipCode.Equals(zipcode)).ToList(),
+                     CD = cont.CreatedDate,
+                     UD = cont.UpdatedDate
+                 }
+                ).ToList();
+
+            var contacts = new List<EntityModel.Contact>();
+            EntityModel.Contact contact;
+            foreach (var item in result)
+            {
+                contact = new EntityModel.Contact();
+
+                contact.ContactId = item.Id;
+                contact.FirstName = item.FN;
+                contact.LastName = item.LN;
+                contact.BusinessName = item.BN;
+                contact.Type = item.Typ;
+                contact.Addresses = item.Addrs;
+                contact.CreatedDate = item.CD;
+                contact.UpdatedDate = item.UD;
+
+                contacts.Add(contact);
+            }
+            return contacts;
         }
 
         public bool Delete(int contactId)
