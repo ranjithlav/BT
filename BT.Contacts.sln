@@ -11,7 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "09-Clients", "09-Clients", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-Domain", "01-Domain", "{88C3CE1C-61C3-4F26-B2CE-167F7C05A013}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "100-Others", "100-Others", "{00B1F26F-AC4D-4B22-868E-35275F609EF6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "100-DbScripts", "100-DbScripts", "{00B1F26F-AC4D-4B22-868E-35275F609EF6}"
+	ProjectSection(SolutionItems) = preProject
+		dbo.Addresses.sql = dbo.Addresses.sql
+		dbo.Contacts.sql = dbo.Contacts.sql
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BT.Contacts.Application.Implementation", "03-Application\BT.Contacts.Application.Implementation\BT.Contacts.Application.Implementation.csproj", "{0D2DC0AB-B10D-4C14-A960-AD7C8FBA72A4}"
 EndProject
@@ -33,7 +37,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BT.NetCoreClient", "09-Clie
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00-Common", "00-Common", "{4952EF6A-3E46-481F-B0A6-9DF316478F13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BT.Contacts.Common", "00-Common\BT.Contacts.Common\BT.Contacts.Common.csproj", "{64A384B6-BBF0-4D8C-86D7-A85BEBD88B44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BT.Contacts.Common", "00-Common\BT.Contacts.Common\BT.Contacts.Common.csproj", "{64A384B6-BBF0-4D8C-86D7-A85BEBD88B44}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99-Others", "99-Others", "{1F77B20D-7068-4D01-A0DD-0696E3C79349}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\ranjithkumarm\Downloads\BT_ER.drawio = C:\Users\ranjithkumarm\Downloads\BT_ER.drawio
+		C:\Users\ranjithkumarm\Downloads\BT_ER.png = C:\Users\ranjithkumarm\Downloads\BT_ER.png
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
