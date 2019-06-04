@@ -20,6 +20,8 @@ namespace BT.Contacts.Application.Tests
         private readonly Mock<IMapper> _mapperMocked;
 
         private readonly ApplModels.Contact _appContact1;
+        private readonly ApplModels.Address _addressAppModel1;
+
         private readonly DomainModels.Contact _contact1;
         private readonly DomainModels.Contact _contact2;
         private readonly List<DomainModels.Contact> _contacts;
@@ -27,6 +29,15 @@ namespace BT.Contacts.Application.Tests
         private const string FirstName = "John";
         private const string LastName = "Doe";
         private const string BusinessName = "Bank of America";
+        private const int addressId1 = 1;
+        private const int addressId2 = 2;
+        private const int addressId3 = 3;
+
+        private const int contactId11 = 11;
+        private const int contactId12 = 12;
+
+        private const string zipcode1 = "10001";
+        private const string zipcode2 = "20002";
 
         public ContactsShould()
         {
@@ -34,6 +45,15 @@ namespace BT.Contacts.Application.Tests
             _loggerMocked = new Mock<ILogger<Appl.Contacts>>();
             _contactRepoMocked = new Mock<IContactRepo>();
             _mapperMocked = new Mock<IMapper>();
+
+            _addressAppModel1 = new ApplModels.Address
+            {
+                ContactId = contactId11,
+                Street = "124",
+                City = "Team city",
+                State = "Hello State",
+                ZipCode = zipcode1
+            };
 
             _appContact1 = new ApplModels.Contact
             {
@@ -48,6 +68,13 @@ namespace BT.Contacts.Application.Tests
                 FirstName = "John",
                 LastName = "Doe",
                 BusinessName = "NA",
+                Addresses = new List<DomainModels.Address> { new DomainModels.Address {
+                    Street = "street",
+                    City = "city",
+                    State = "state",
+                    ContactId = 1,
+                    ZipCode = "123456"
+                } },
                 CreatedDate = DateTime.Now.AddDays(-5),
                 UpdatedDate = DateTime.Now.AddDays(-4)
             };
@@ -62,6 +89,17 @@ namespace BT.Contacts.Application.Tests
                 UpdatedDate = DateTime.Now
             };
 
+            _mapperMocked.Setup(x => x.Map<ApplModels.Address>(It.IsAny<DomainModels.Address>()))
+                .Returns((DomainModels.Address source) => new ApplModels.Address()
+                {
+                    AddressId = 123,
+                    ContactId = 11,
+                    Street = "2727",
+                    City = "Houston",
+                    State = "Texas",
+                    ZipCode = "123456"
+                });
+
             _mapperMocked.Setup(x => x.Map<ApplModels.Contact>(It.IsAny<DomainModels.Contact>()))
                 .Returns((DomainModels.Contact source) => new ApplModels.Contact()
                 {
@@ -71,13 +109,43 @@ namespace BT.Contacts.Application.Tests
                     BusinessName = BusinessName
                 });
 
+            _mapperMocked.Setup(x => x.Map<IEnumerable<ApplModels.Address>>(It.IsAny<IEnumerable<DomainModels.Address>>()))
+                .Returns((List<DomainModels.Address> source) => new List<ApplModels.Address>() {
+                    new ApplModels.Address {
+                    AddressId = addressId1,
+                    ContactId = 11,
+                    Street = "2727",
+                    City = "Houston",
+                    State = "Texas",
+                    ZipCode = zipcode1
+                },
+                    new ApplModels.Address {
+                    AddressId = addressId2,
+                    ContactId = contactId11,
+                    Street = "2727",
+                    City = "Austin",
+                    State = "Texas",
+                    ZipCode = zipcode2
+                } ,
+                    new ApplModels.Address {
+                    AddressId = addressId3,
+                    ContactId = 11,
+                    Street = "1111",
+                    City = "Dallas",
+                    State = "Texas",
+                    ZipCode = zipcode1
+                } });
+
             _mapperMocked.Setup(x => x.Map<IEnumerable<ApplModels.Contact>>(It.IsAny<IEnumerable<DomainModels.Contact>>()))
                 .Returns((List<DomainModels.Contact> source) => new List<ApplModels.Contact>() {
                     new ApplModels.Contact {
                     ContactId = 1,
                     FirstName = "John",
                     LastName = "Doe",
-                    BusinessName = "NA"
+                    BusinessName = "NA",
+                    Addresses = new List<ApplModels.Address>{
+                        new ApplModels.Address { ContactId = 1, Street = "Street", City = "City"}
+                    }
                 },
                     new ApplModels.Contact {
                     ContactId = 2,
@@ -228,6 +296,23 @@ namespace BT.Contacts.Application.Tests
             //Assert
             contactsResult.Should().NotBeNull();
             contactsResult[0].ContactId.Should().Be(1);
+            contactsResult[1].ContactId.Should().Be(2);
+        }
+
+        [Fact]
+        private void GetAllByZipcode()
+        {
+            //Act
+            var contact = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
+            _contactRepoMocked.Setup(repo => repo.GetAll(It.IsAny<string>())).Returns(_contacts);
+
+            var contactsResult = contact.GetAll("12345").ToList();
+
+            //Assert
+            contactsResult.Should().NotBeNull();
+            contactsResult[0].ContactId.Should().Be(1);
+            contactsResult[0].Addresses.Count.Should().Be(1);
+
             contactsResult[1].ContactId.Should().Be(2);
         }
     }

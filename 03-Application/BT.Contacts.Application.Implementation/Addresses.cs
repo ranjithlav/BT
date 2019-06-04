@@ -32,7 +32,7 @@ namespace BT.Contacts.Application.Implementation
         public virtual Address Add(Address address)
         {
             _logger.LogInformation($"Add Address");
-            return _mapper.Map<Address>(_addressRepo.Add(_mapper.Map<Entity.Address>(address)));
+            return address.Validate() ? _mapper.Map<Address>(_addressRepo.Add(_mapper.Map<Entity.Address>(address))) : null;
         }
 
         /// <summary>

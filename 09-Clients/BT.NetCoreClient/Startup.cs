@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BT.Contacts.Application.Api;
+using BT.Contacts.Application.Implementation.Profiles;
 using BT.Contacts.Domain;
 using BT.Contacts.Infrastructure.Api.Repository;
 using BT.Contacts.Infrastructure.Implementation.Repository;
@@ -29,6 +30,14 @@ namespace BT.NetCoreClient
             services.Configure<DB>(Configuration.GetSection("DBConfiguration"));
             ServiceIocRegistration(services);
             RepositoryIocRegistration(services);
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddAutoMapper(typeof(Startup));
             services.AddMvc();

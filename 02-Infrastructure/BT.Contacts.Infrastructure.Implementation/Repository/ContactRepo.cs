@@ -33,11 +33,10 @@ namespace BT.Contacts.Infrastructure.Implementation.Repository
 
         public EntityModel.Contact Add(EntityModel.Contact contact)
         {
-            contact.CreatedDate = DateTime.UtcNow;
+            contact.CreatedDate = DateTime.Now;
+            contact.UpdatedDate = DateTime.Now;
             _context.Add(contact);
-            _context.SaveChanges();
-
-            return contact;
+            return _context.SaveChanges() == 1 ? contact : null;
         }
 
         public EntityModel.Contact Get(int contactId)
@@ -99,9 +98,12 @@ namespace BT.Contacts.Infrastructure.Implementation.Repository
         public bool Delete(int contactId)
         {
             contactId.CheckLessThanOrEqual(0, nameof(contactId));
-            //var contact = context.Contact.Find(contactId);
-            _context.Contacts.Remove(new EntityModel.Contact { ContactId = contactId });
-            return true;
+            var contact = _context.Contacts
+                           .Include(x => x.Addresses)
+                           .SingleOrDefault(x => x.ContactId == contactId);
+
+            _context.Contacts.Remove(contact);
+            return _context.SaveChanges() > 0;
         }
     }
 }

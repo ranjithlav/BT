@@ -22,5 +22,30 @@ namespace BT.Contacts.Application.Models
         public DateTime CreatedDate { get; set; }
 
         public DateTime UpdatedDate { get; set; }
+
+        public bool Validate()
+        {
+            if (ContactId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(string.Format(ValidationMessages.GenericIntegerMandatory, nameof(ContactId)));
+            }
+            if (string.IsNullOrEmpty(Street))
+            {
+                throw new ArgumentException(string.Format(ValidationMessages.GenericStringMandatory, nameof(Street)));
+            }
+            if (string.IsNullOrEmpty(City))
+            {
+                throw new ArgumentException(string.Format(ValidationMessages.GenericStringMandatory, nameof(City)));
+            }
+            if (string.IsNullOrEmpty(State))
+            {
+                throw new ArgumentException(string.Format(ValidationMessages.GenericStringMandatory, nameof(State)));
+            }
+            if (string.IsNullOrEmpty(ZipCode))
+            {
+                throw new ArgumentException(string.Format(ValidationMessages.GenericStringMandatory, nameof(ZipCode)));
+            }
+            return true;
+        }
     }
 }

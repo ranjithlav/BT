@@ -30,8 +30,7 @@ namespace BT.Contacts.Application.Implementation
         public virtual Contact Add(Contact contact)
         {
             _logger.LogInformation($"Add Contact");
-            contact.Validate();
-            return _mapper.Map<Contact>(_contactRepo.Add(_mapper.Map<Entity.Contact>(contact)));
+            return contact.Validate() ? _mapper.Map<Contact>(_contactRepo.Add(_mapper.Map<Entity.Contact>(contact))) : null;
         }
 
         public virtual Contact Get(int contactId)

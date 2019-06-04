@@ -20,6 +20,7 @@ namespace BT.Contacts.Infrastructure.Implementation.Context
             modelBuilder.Entity<Address>()
                 .HasOne(c => c.Contact)
                 .WithMany(a => a.Addresses)
+
                 .HasForeignKey(fk => fk.ContactId);
         }
     }

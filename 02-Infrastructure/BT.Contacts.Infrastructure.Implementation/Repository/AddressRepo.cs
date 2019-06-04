@@ -31,11 +31,10 @@ namespace BT.Contacts.Infrastructure.Implementation.Repository
 
         public virtual Address Add(Address address)
         {
-            address.CreatedDate = DateTime.UtcNow;
+            address.CreatedDate = DateTime.Now;
+            address.UpdatedDate = DateTime.Now;
             _context.Add(address);
-            _context.SaveChanges();
-
-            return address;
+            return _context.SaveChanges() == 1 ? address : null;
         }
 
         public virtual IEnumerable<Address> FindAll()
@@ -64,8 +63,12 @@ namespace BT.Contacts.Infrastructure.Implementation.Repository
         public virtual bool Delete(int addressId)
         {
             addressId.CheckLessThanOrEqual(0, nameof(addressId));
-            _context.Addresses.Remove(new Address { AddressId = addressId });
-            return true;
+
+            var address = _context.Addresses
+                           .SingleOrDefault(x => x.AddressId == addressId);
+
+            _context.Addresses.Remove(address);
+            return _context.SaveChanges() > 0;
         }
     }
 }

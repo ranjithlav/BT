@@ -20,6 +20,8 @@ namespace BT.Contacts.Application.Tests
         private readonly Mock<IAddressRepo> _addressRepoMocked;
         private readonly Mock<IMapper> _mapperMocked;
 
+        private readonly ApplModels.Address _addressAppModel1;
+
         private readonly DomainModels.Address _address1;
         private readonly DomainModels.Address _address2;
         private readonly List<DomainModels.Address> _addresses;
@@ -40,6 +42,15 @@ namespace BT.Contacts.Application.Tests
             _loggerMocked = new Mock<ILogger<Addresses>>();
             _addressRepoMocked = new Mock<IAddressRepo>();
             _mapperMocked = new Mock<IMapper>();
+
+            _addressAppModel1 = new ApplModels.Address
+            {
+                ContactId = contactId11,
+                Street = "124",
+                City = "Team city",
+                State = "Hello State",
+                ZipCode = zipcode1
+            };
 
             _address1 = new DomainModels.Address
             {
@@ -226,6 +237,211 @@ namespace BT.Contacts.Application.Tests
             result[0].AddressId.Should().Be(addressId1);
             result[1].AddressId.Should().Be(addressId2);
             result[2].AddressId.Should().Be(addressId3);
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenContactIdIsZero()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Add(It.IsAny<DomainModels.Address>())).Returns(_address1);
+
+            //Assert
+            Assert.Throws<ArgumentOutOfRangeException>(()=> addresses.Add(new ApplModels.Address
+            {
+                ContactId = 0,
+                Street = "124",
+                City = "Team city",
+                State = "Hello State",
+                ZipCode = "16050"
+            }));
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenContactIdIsLessthanZero()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Add(It.IsAny<DomainModels.Address>())).Returns(_address1);
+
+            //Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => addresses.Add(new ApplModels.Address
+            {
+                ContactId = -1,
+                Street = "124",
+                City = "Team city",
+                State = "Hello State",
+                ZipCode = "16050"
+            }));
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenStreetIsEmpty()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Add(It.IsAny<DomainModels.Address>())).Returns(_address1);
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => addresses.Add(new ApplModels.Address
+            {
+                ContactId = 1234,
+                Street = string.Empty,
+                City = "Team city",
+                State = "Hello State",
+                ZipCode = "16050"
+            }));
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenStreetIsNull()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Add(It.IsAny<DomainModels.Address>())).Returns(_address1);
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => addresses.Add(new ApplModels.Address
+            {
+                ContactId = 1234,
+                Street = null,
+                City = "Team city",
+                State = "Hello State",
+                ZipCode = "16050"
+            }));
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenCityIsEmpty()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Add(It.IsAny<DomainModels.Address>())).Returns(_address1);
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => addresses.Add(new ApplModels.Address
+            {
+                ContactId = 1234,
+                Street = "Street",
+                City = string.Empty,
+                State = "Hello State",
+                ZipCode = "16050"
+            }));
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenCityIsNull()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Add(It.IsAny<DomainModels.Address>())).Returns(_address1);
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => addresses.Add(new ApplModels.Address
+            {
+                ContactId = 1234,
+                Street = "Street",
+                City = null,
+                State = "Hello State",
+                ZipCode = "16050"
+            }));
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenStateIsEmpty()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Add(It.IsAny<DomainModels.Address>())).Returns(_address1);
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => addresses.Add(new ApplModels.Address
+            {
+                ContactId = 1234,
+                Street = "Street",
+                City = "City",
+                State = string.Empty,
+                ZipCode = "16050"
+            }));
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenZipcodeIsNull()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Add(It.IsAny<DomainModels.Address>())).Returns(_address1);
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => addresses.Add(new ApplModels.Address
+            {
+                ContactId = 1234,
+                Street = "Street",
+                City = "City",
+                State = "state",
+                ZipCode = null
+            }));
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenZipcodeIsEmpty()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Add(It.IsAny<DomainModels.Address>())).Returns(_address1);
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => addresses.Add(new ApplModels.Address
+            {
+                ContactId = 1234,
+                Street = "Street",
+                City = "City",
+                State = "state",
+                ZipCode = string.Empty
+            }));
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenStateIsNull()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Add(It.IsAny<DomainModels.Address>())).Returns(_address1);
+
+            //Assert
+            Assert.Throws<ArgumentException>(() => addresses.Add(new ApplModels.Address
+            {
+                ContactId = 1234,
+                Street = "Street",
+                City = "City",
+                State = null,
+                ZipCode = "16050"
+            }));
+        }
+
+        [Fact]
+        private void AddAddress()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Add(It.IsAny<DomainModels.Address>())).Returns(_address1);
+            var result = addresses.Add(_addressAppModel1);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.ContactId.Should().Be(_address1.ContactId);
+        }
+
+        [Fact]
+        private void RemoveAddress()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Delete(It.IsAny<int>())).Returns(true);
+            var result = addresses.Remove(123);
+
+            //Assert
+            result.Should().BeTrue();
         }
     }
 }
