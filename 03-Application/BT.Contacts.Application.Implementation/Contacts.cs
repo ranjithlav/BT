@@ -30,11 +30,19 @@ namespace BT.Contacts.Application.Implementation
         public virtual Contact Add(Contact contact)
         {
             _logger.LogInformation($"Add Contact");
-            foreach (var address in contact.Addresses)
+            if (contact.Addresses != null)
             {
-                address.Validate(false);
+                foreach (var address in contact.Addresses)
+                {
+                    address.Validate(false);
+                }
             }
-            return contact.Validate() ? _mapper.Map<Contact>(_contactRepo.Add(_mapper.Map<Entity.Contact>(contact))) : null;
+            if (contact.Validate())
+            {
+                contact.Type = !string.IsNullOrEmpty(contact.BusinessName) ? ContactType.Business : ContactType.Person;
+                return _mapper.Map<Contact>(_contactRepo.Add(_mapper.Map<Entity.Contact>(contact)));
+            }
+            return null;
         }
 
         public virtual Contact Get(int contactId)
@@ -51,9 +59,9 @@ namespace BT.Contacts.Application.Implementation
 
             var contactFromRepo = _contactRepo.GetAll();
 
-            if(contactFromRepo.Any())
+            if (contactFromRepo.Any())
                 return _mapper.Map<IEnumerable<Contact>>(contactFromRepo);
-            
+
             return null;
         }
 

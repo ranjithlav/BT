@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using Appl = BT.Contacts.Application.Implementation;
 using ApplModels = BT.Contacts.Application.Models;
 using DomainModels = BT.Contacts.Domain.Entities;
 
@@ -430,6 +429,24 @@ namespace BT.Contacts.Application.Tests
             //Assert
             result.Should().NotBeNull();
             result.ContactId.Should().Be(_address1.ContactId);
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenIdIsZeroWhileRemoveAddress()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Delete(It.IsAny<int>())).Returns(true);
+            Assert.Throws<ArgumentOutOfRangeException>(()=> addresses.Remove(0));
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenIdIsLessthanZeroWhileRemoveAddress()
+        {
+            //Act
+            var addresses = new Addresses(_loggerMocked.Object, _mapperMocked.Object, _addressRepoMocked.Object);
+            _addressRepoMocked.Setup(repo => repo.Delete(It.IsAny<int>())).Returns(true);
+            Assert.Throws<ArgumentOutOfRangeException>(() => addresses.Remove(-1));
         }
 
         [Fact]

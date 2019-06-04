@@ -1,6 +1,7 @@
 ﻿using BT.Contacts.Application.Api;
 using BT.Contacts.Application.Models;
 using BT.Contacts.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -21,7 +22,8 @@ namespace BT.NetCoreClient.Controllers
             _contacts = contacts;
         }
 
-        [HttpPost, Route("contact")]
+        [HttpPost, Route("contacts")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult Add([FromBody]Contact contact)
         {
             contact.CheckNull();
@@ -32,7 +34,7 @@ namespace BT.NetCoreClient.Controllers
             return Ok(result);
         }
 
-        [HttpDelete, Route("contact")]
+        [HttpDelete, Route("contacts")]
         public IActionResult Delete(int contactId)
         {
             contactId.CheckLessThanOrEqual(0, nameof(contactId));
@@ -62,13 +64,13 @@ namespace BT.NetCoreClient.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("contact/{contactId}")]
-        public IActionResult GetContactInfo(int contactId)
+        [HttpGet, Route("contacts/{id}")]
+        public IActionResult GetContactInfo(int id)
         {
-            contactId.CheckLessThanOrEqual(0, nameof(contactId));
-            _logger.LogInformation($"Get contact info for id: '{contactId}'");
+            id.CheckLessThanOrEqual(0, nameof(id));
+            _logger.LogInformation($"Get contact info for id: '{id}'");
 
-            var result = _contacts.Get(contactId);
+            var result = _contacts.Get(id);
 
             return Ok(result);
         }

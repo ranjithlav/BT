@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
-using System.Collections.Generic;
 
 namespace BT.Contacts.Infrastructure.Implementation
 {

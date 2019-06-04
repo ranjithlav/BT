@@ -1,7 +1,7 @@
 ﻿USE [BTPoc]
 GO
 
-/****** Object: Table [dbo].[Addresses] Script Date: 6/4/2019 5:52:40 PM ******/
+/****** Object: Table [dbo].[Addresses] Script Date: 6/5/2019 12:23:49 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -24,3 +24,6 @@ CREATE TABLE [dbo].[Addresses] (
 );
 
 
+GO
+CREATE NONCLUSTERED INDEX [idx_Addresses_Zipcode]
+    ON [dbo].[Addresses]([Zipcode] ASC);

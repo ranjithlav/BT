@@ -238,6 +238,24 @@ namespace BT.Contacts.Application.Tests
         }
 
         [Fact]
+        private void AddContactWithBusinessNameAndAddress()
+        {
+            //Act
+            var contacts = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
+
+            var result = contacts.Add(new ApplModels.Contact
+            {
+                FirstName = string.Empty,
+                LastName = string.Empty,
+                BusinessName = BusinessName,
+                Addresses = new List<ApplModels.Address> { new ApplModels.Address { Street = "street", City = "city", State = "state", ZipCode = "10001"} }
+            });
+
+            //Assert
+            result.BusinessName.Should().Be(BusinessName);
+        }
+
+        [Fact]
         private void ThrowExceptionWhenContactIdIsLessThanZeroWhileGet()
         {
             //Act
@@ -300,6 +318,26 @@ namespace BT.Contacts.Application.Tests
         }
 
         [Fact]
+        private void ThrowExceptionWhenEmptyZipcode()
+        {
+            //Act
+            var contact = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
+            _contactRepoMocked.Setup(repo => repo.GetAll(It.IsAny<string>())).Returns(_contacts);
+
+            Assert.Throws<ArgumentException>(() => contact.GetAll(string.Empty).ToList());
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenNullZipcode()
+        {
+            //Act
+            var contact = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
+            _contactRepoMocked.Setup(repo => repo.GetAll(It.IsAny<string>())).Returns(_contacts);
+
+            Assert.Throws<ArgumentNullException>(() => contact.GetAll(null).ToList());
+        }
+
+        [Fact]
         private void GetAllByZipcode()
         {
             //Act
@@ -314,6 +352,36 @@ namespace BT.Contacts.Application.Tests
             contactsResult[0].Addresses.Count.Should().Be(1);
 
             contactsResult[1].ContactId.Should().Be(2);
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenIdIsZeroWhileRemoveAddress()
+        {
+            //Act
+            var contact = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
+            _contactRepoMocked.Setup(repo => repo.Delete(It.IsAny<int>())).Returns(true);
+            Assert.Throws<ArgumentOutOfRangeException>(() => contact.Remove(0));
+        }
+
+        [Fact]
+        private void ThrowExceptionWhenIdIsLessthanZeroWhileRemoveAddress()
+        {
+            //Act
+            var contact = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
+            _contactRepoMocked.Setup(repo => repo.Delete(It.IsAny<int>())).Returns(true);
+            Assert.Throws<ArgumentOutOfRangeException>(() => contact.Remove(-1));
+        }
+
+        [Fact]
+        private void RemoveAddress()
+        {
+            //Act
+            var contact = new Appl.Contacts(_loggerMocked.Object, _mapperMocked.Object, _contactRepoMocked.Object);
+            _contactRepoMocked.Setup(repo => repo.Delete(It.IsAny<int>())).Returns(true);
+            var result = contact.Remove(123);
+
+            //Assert
+            result.Should().BeTrue();
         }
     }
 }

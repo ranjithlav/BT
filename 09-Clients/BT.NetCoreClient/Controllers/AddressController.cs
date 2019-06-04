@@ -1,6 +1,7 @@
 ﻿using BT.Contacts.Application.Api;
 using BT.Contacts.Application.Models;
 using BT.Contacts.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -21,7 +22,8 @@ namespace BT.NetCoreClient.Controllers
             _addresses = addresses;
         }
 
-        [HttpPost, Route("address")]
+        [HttpPost, Route("addresses")]
+        [ProducesResponseType(typeof(Address), StatusCodes.Status201Created)]
         public IActionResult Add([FromBody]Address address)
         {
             address.CheckNull();
@@ -32,7 +34,7 @@ namespace BT.NetCoreClient.Controllers
             return Ok(result);
         }
 
-        [HttpDelete, Route("address")]
+        [HttpDelete, Route("addresses")]
         public IActionResult Delete(int addressId)
         {
             addressId.CheckLessThanOrEqual(0, nameof(addressId));
@@ -53,17 +55,17 @@ namespace BT.NetCoreClient.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("address/addressId/{addressId}")]
-        public IActionResult GetAddressByAddressid(int addressId)
+        [HttpGet, Route("addresses/{id}")]
+        public IActionResult GetAddressByAddressid(int id)
         {
-            _logger.LogInformation($"Get address info for addressId: '{addressId}'");
+            _logger.LogInformation($"Get address info for addressId: '{id}'");
 
-            var result = _addresses.GetByAddressId(addressId);
+            var result = _addresses.GetByAddressId(id);
 
             return Ok(result);
         }
 
-        [HttpGet, Route("addresses/contactid/{contactId}")]
+        [HttpGet, Route("contacts/{contactId}/addresses")]
         public IActionResult GetAddressByContactId(int contactId)
         {
             _logger.LogInformation($"Get address info for contactId: '{contactId}'");
@@ -73,7 +75,7 @@ namespace BT.NetCoreClient.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("addresses/zipcode/{zipcode}")]
+        [HttpGet, Route("contacts/addresses/{zipcode}")]
         public IActionResult GetAddressByZipcode(string zipcode)
         {
             _logger.LogInformation($"Get address info for zipcode: '{zipcode}'");
