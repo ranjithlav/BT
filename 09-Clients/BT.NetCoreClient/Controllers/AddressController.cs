@@ -63,7 +63,7 @@ namespace BT.NetCoreClient.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("address/contactid/{contactId}")]
+        [HttpGet, Route("addresses/contactid/{contactId}")]
         public IActionResult GetAddressByContactId(int contactId)
         {
             _logger.LogInformation($"Get address info for contactId: '{contactId}'");
@@ -73,7 +73,7 @@ namespace BT.NetCoreClient.Controllers
             return Ok(result);
         }
 
-        [HttpGet, Route("address/zipcode/{zipcode}")]
+        [HttpGet, Route("addresses/zipcode/{zipcode}")]
         public IActionResult GetAddressByZipcode(string zipcode)
         {
             _logger.LogInformation($"Get address info for zipcode: '{zipcode}'");

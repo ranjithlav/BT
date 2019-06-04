@@ -23,11 +23,14 @@ namespace BT.Contacts.Application.Models
 
         public DateTime UpdatedDate { get; set; }
 
-        public bool Validate()
+        public bool Validate(bool relationshipCheck)
         {
-            if (ContactId <= 0)
+            if (relationshipCheck)
             {
-                throw new ArgumentOutOfRangeException(string.Format(ValidationMessages.GenericIntegerMandatory, nameof(ContactId)));
+                if (ContactId <= 0)
+                {
+                    throw new ArgumentOutOfRangeException(string.Format(ValidationMessages.GenericIntegerMandatory, nameof(ContactId)));
+                }
             }
             if (string.IsNullOrEmpty(Street))
             {

@@ -67,6 +67,11 @@ namespace BT.Contacts.Infrastructure.Implementation.Repository
             var address = _context.Addresses
                            .SingleOrDefault(x => x.AddressId == addressId);
 
+            if (address == null)
+            {
+                throw new ArgumentNullException($"Address with id: {addressId} not found");
+            }
+
             _context.Addresses.Remove(address);
             return _context.SaveChanges() > 0;
         }

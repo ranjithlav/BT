@@ -73,7 +73,7 @@ namespace BT.Contacts.Infrastructure.Implementation.Repository
                      CD = cont.CreatedDate,
                      UD = cont.UpdatedDate
                  }
-                ).ToList();
+                ).Distinct().ToList();
 
             var contacts = new List<EntityModel.Contact>();
             EntityModel.Contact contact;
@@ -101,7 +101,10 @@ namespace BT.Contacts.Infrastructure.Implementation.Repository
             var contact = _context.Contacts
                            .Include(x => x.Addresses)
                            .SingleOrDefault(x => x.ContactId == contactId);
-
+            if (contact == null)
+            {
+                throw new ArgumentNullException($"Contact with id: {contactId} not found");
+            }
             _context.Contacts.Remove(contact);
             return _context.SaveChanges() > 0;
         }
